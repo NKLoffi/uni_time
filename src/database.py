@@ -10,10 +10,10 @@ class Database:
     def create_table(self): # function to create "task" table
 
         CREATE_TASK_TABLE = """ CREATE TABLE IF NOT EXISTS tasks (
-                                taskId INTEGER AUTO INCREMENT PRIMARY KEY
-                                taskName TEXT NOT NULL
-                                courseName TEXT NOT NULL
-                                priority TEXT NOT NULL
+                                taskId INTEGER AUTO INCREMENT PRIMARY KEY,
+                                taskName TEXT NOT NULL,
+                                courseName TEXT NOT NULL,
+                                priority TEXT NOT NULL,
                                 due DATE NOT NULL
                                 );"""
         
