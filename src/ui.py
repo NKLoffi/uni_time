@@ -22,8 +22,13 @@ class MainWindow(QMainWindow):
         # Settings Icon
         self.settingsButton = QPushButton(self)
         self.settingsButton.setIcon(QIcon("Assets/Settings_Icon.svg"))
+        self.settingsButton.setObjectName("settingsButton")
+        self.settingsButton.setGeometry(758, 10, 32, 32)
 
+        self.introLabel = QLabel("Welcome to Uni Time") # have to define layout and add it
+        self.introSubLabel = QLabel("Productivity is the key") # have to define layout and add it
 
+        
         self.setStyleSheet(styles.WINDOW_STYLES)
 
         
