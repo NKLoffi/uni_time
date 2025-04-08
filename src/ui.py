@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import (QPushButton, QRadioButton, QLineEdit, QMainWindow, QWidget,
-                             QLabel, QMessageBox, QVBoxLayout)
+                             QLabel, QMessageBox, QVBoxLayout, QHBoxLayout, QGridLayout)
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from database import Database
@@ -20,13 +20,8 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
 
-        mainWidget = QWidget()
-        self.setCentralWidget(mainWidget)
-
-        mainLayout = QVBoxLayout(mainWidget)
-        
-        centerLayout = QVBoxLayout()
-        centerLayout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
 
         # Settings Icon
         self.settingsButton = QPushButton(self)
@@ -37,14 +32,19 @@ class MainWindow(QMainWindow):
         self.introLabel = QLabel("Welcome to Uni Time") # have to define layout and add it
         self.introSubLabel = QLabel("Productivity is the key") # have to define layout and add it
 
-        centerLayout.addWidget(self.introLabel)
-        centerLayout.addWidget(self.introSubLabel)
+        main_layout = QHBoxLayout()
 
-        mainLayout.addStretch()
-        mainLayout.addLayout(centerLayout)
-        mainLayout.addStretch()
+        layout = QVBoxLayout()
+        layout.addStretch()
+        layout.addWidget(self.introLabel) 
+        layout.addWidget(self.introSubLabel)
+        self.introLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.introSubLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addStretch()
+        layout.setSpacing(3)
 
-        
+        main_layout.addLayout(layout)
+        central_widget.setLayout(main_layout)        
         self.setStyleSheet(styles.WINDOW_STYLES)
 
         
