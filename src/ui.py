@@ -29,6 +29,10 @@ class MainWindow(QMainWindow):
         self.settingsButton.setObjectName("settingsButton")
         self.settingsButton.setGeometry(758, 10, 32, 32)
 
+        self.getStartedButton = QPushButton("Get Started")
+        self.getStartedButton.setObjectName("started")
+
+
         self.introLabel = QLabel("Welcome to Uni Time") # have to define layout and add it
         self.introSubLabel = QLabel("Productivity is the key") # have to define layout and add it
 
@@ -38,10 +42,11 @@ class MainWindow(QMainWindow):
         layout.addStretch()
         layout.addWidget(self.introLabel) 
         layout.addWidget(self.introSubLabel)
+        layout.addWidget(self.getStartedButton)
         self.introLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.introSubLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addStretch()
-        layout.setSpacing(3)
+        layout.setSpacing(4)
 
         main_layout.addLayout(layout)
         central_widget.setLayout(main_layout)        
