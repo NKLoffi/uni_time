@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import (QPushButton, QRadioButton, QLineEdit, QMainWindow, QWidget,
-                             QLabel, QMessageBox, QVBoxLayout, QHBoxLayout, QGridLayout)
+                             QLabel, QMessageBox, QVBoxLayout, QHBoxLayout, QGridLayout, QStackedWidget)
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from database import Database
@@ -19,7 +19,6 @@ class MainWindow(QMainWindow):
         
 
     def initUI(self):
-
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
@@ -32,24 +31,47 @@ class MainWindow(QMainWindow):
         self.getStartedButton = QPushButton("Get Started")
         self.getStartedButton.setObjectName("started")
 
+        self.introLabel = QLabel("Welcome to Uni Time")
+        self.introSubLabel = QLabel("Productivity is the key")
 
-        self.introLabel = QLabel("Welcome to Uni Time") # have to define layout and add it
-        self.introSubLabel = QLabel("Productivity is the key") # have to define layout and add it
+        # Create stacked widget
+        self.stack = QStackedWidget()
+        central_layout = QVBoxLayout()
+        central_layout.addWidget(self.stack)
+        central_widget.setLayout(central_layout)
 
-        main_layout = QHBoxLayout()
+        # Page 1: Welcome page
+        self.welcomePage = QWidget()
+        welcome_layout = QVBoxLayout()
+        welcome_layout.addStretch()
+        welcome_layout.addWidget(self.introLabel)
+        welcome_layout.addWidget(self.introSubLabel)
 
-        layout = QVBoxLayout()
-        layout.addStretch()
-        layout.addWidget(self.introLabel) 
-        layout.addWidget(self.introSubLabel)
-        layout.addWidget(self.getStartedButton)
+        button_layout = QHBoxLayout()
+        button_layout.addStretch()
+        button_layout.addWidget(self.getStartedButton)
+        button_layout.addStretch()
+        welcome_layout.addLayout(button_layout)
+
         self.introLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.introSubLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addStretch()
-        layout.setSpacing(4)
+        welcome_layout.addStretch()
+        welcome_layout.setSpacing(4)
+        self.welcomePage.setLayout(welcome_layout)
 
-        main_layout.addLayout(layout)
-        central_widget.setLayout(main_layout)        
+        # Page 2: Placeholder second page
+        self.secondPage = QWidget()
+        second_layout = QVBoxLayout()
+        second_label = QLabel("This is the second page")
+        second_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        second_layout.addWidget(second_label)
+        self.secondPage.setLayout(second_layout)
+
+        # Add pages to stack
+        self.stack.addWidget(self.welcomePage)
+        self.stack.addWidget(self.secondPage)
+
+        # Button action to switch pages
+        self.getStartedButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.secondPage))
+
         self.setStyleSheet(styles.WINDOW_STYLES)
-
-        
