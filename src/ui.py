@@ -34,13 +34,13 @@ class MainWindow(QMainWindow):
         self.introLabel = QLabel("Welcome to Uni Time")
         self.introSubLabel = QLabel("Productivity is the key")
 
-        # Create stacked widget
+
         self.stack = QStackedWidget()
         central_layout = QVBoxLayout()
         central_layout.addWidget(self.stack)
         central_widget.setLayout(central_layout)
 
-        # Page 1: Welcome page
+
         self.welcomePage = QWidget()
         welcome_layout = QVBoxLayout()
         welcome_layout.addStretch()
@@ -59,19 +59,24 @@ class MainWindow(QMainWindow):
         welcome_layout.setSpacing(4)
         self.welcomePage.setLayout(welcome_layout)
 
-        # Page 2: Placeholder second page
+
         self.secondPage = QWidget()
         second_layout = QVBoxLayout()
-        second_label = QLabel("This is the second page")
+        second_label = QLabel("second page")
         second_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         second_layout.addWidget(second_label)
         self.secondPage.setLayout(second_layout)
 
-        # Add pages to stack
+        self.backButton = QPushButton(self)
+        self.backButton.setIcon(QIcon("Assets/back_button.svg"))
+        self.backButton.setObjectName("back")
+        self.backButton.setGeometry(10, 10, 32, 32)
+        self.backButton.clicked.connect(lambda:self.stack.setCurrentWidget(self.welcomePage))
+
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.secondPage)
 
-        # Button action to switch pages
+
         self.getStartedButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.secondPage))
 
         self.setStyleSheet(styles.WINDOW_STYLES)
