@@ -27,6 +27,7 @@ class MainWindow(QMainWindow):
         self.settingsButton.setIcon(QIcon("Assets/Settings_Icon.svg"))
         self.settingsButton.setObjectName("settingsButton")
         self.settingsButton.setGeometry(758, 10, 32, 32)
+        self.settingsButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.settingsPage))
 
         self.getStartedButton = QPushButton("Get Started")
         self.getStartedButton.setObjectName("started")
@@ -67,7 +68,13 @@ class MainWindow(QMainWindow):
         second_layout.addWidget(second_label)
         self.secondPage.setLayout(second_layout)
 
-        self.backButton = QPushButton(self)
+        self.settingsPage = QWidget()
+        settings_layout = QVBoxLayout()
+        settings_label = QLabel("Settings Page")
+        settings_layout.addWidget(settings_label)
+        self.settingsPage.setLayout(settings_layout)
+
+        self.backButton = QPushButton(self.secondPage)
         self.backButton.setIcon(QIcon("Assets/back_button.svg"))
         self.backButton.setObjectName("back")
         self.backButton.setGeometry(10, 10, 32, 32)
@@ -75,6 +82,7 @@ class MainWindow(QMainWindow):
 
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.secondPage)
+        self.stack.addWidget(self.settingsPage)
 
 
         self.getStartedButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.secondPage))
