@@ -71,9 +71,19 @@ class MainWindow(QMainWindow):
 
         self.secondPage = QWidget()
         second_layout = QVBoxLayout()
+
+        # Create and add top bar with back button
+        top_bar_layout = QHBoxLayout()
+        self.backButton = self.create_back_button(self.secondPage, self.welcomePage, self.stack)
+        top_bar_layout.addWidget(self.backButton)
+        top_bar_layout.addStretch()
+        second_layout.addLayout(top_bar_layout)
+
+        # Add page label
         second_label = QLabel("second page")
         second_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         second_layout.addWidget(second_label)
+
         self.secondPage.setLayout(second_layout)
 
         self.settingsPage = QWidget()
@@ -82,7 +92,6 @@ class MainWindow(QMainWindow):
         settings_layout.addWidget(settings_label)
         self.settingsPage.setLayout(settings_layout)
 
-        self.backButton = self.create_back_button(self.secondPage, self.welcomePage, self.stack)
 
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.secondPage)
