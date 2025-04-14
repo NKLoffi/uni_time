@@ -16,7 +16,15 @@ class MainWindow(QMainWindow):
         self.resize(800, 800)
 
         self.initUI()
-        
+
+
+    def create_back_button(self, current, target, stack):
+        backButton = QPushButton()
+        backButton.setIcon(QIcon("Assets/back_button.svg"))
+        backButton.setObjectName("back")
+        backButton.setGeometry(10, 10, 32, 32)
+        backButton.clicked.connect(lambda: stack.setCurrentWidget(target))
+        return backButton
 
     def initUI(self):
         central_widget = QWidget()
@@ -74,11 +82,7 @@ class MainWindow(QMainWindow):
         settings_layout.addWidget(settings_label)
         self.settingsPage.setLayout(settings_layout)
 
-        self.backButton = QPushButton(self.secondPage)
-        self.backButton.setIcon(QIcon("Assets/back_button.svg"))
-        self.backButton.setObjectName("back")
-        self.backButton.setGeometry(10, 10, 32, 32)
-        self.backButton.clicked.connect(lambda:self.stack.setCurrentWidget(self.welcomePage))
+        self.backButton = self.create_back_button(self.secondPage, self.welcomePage, self.stack)
 
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.secondPage)
