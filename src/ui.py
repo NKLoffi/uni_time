@@ -43,12 +43,14 @@ class MainWindow(QMainWindow):
         self.introLabel = QLabel("Welcome to Uni Time")
         self.introSubLabel = QLabel("Productivity is the key")
 
+        # Stacked widget
 
         self.stack = QStackedWidget()
         central_layout = QVBoxLayout()
         central_layout.addWidget(self.stack)
         central_widget.setLayout(central_layout)
 
+        # Get started page
 
         self.welcomePage = QWidget()
         welcome_layout = QVBoxLayout()
@@ -61,6 +63,8 @@ class MainWindow(QMainWindow):
         button_layout.addWidget(self.getStartedButton)
         button_layout.addStretch()
         welcome_layout.addLayout(button_layout)
+
+        # Get started page's intro
 
         self.introLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.introSubLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -86,9 +90,18 @@ class MainWindow(QMainWindow):
 
         self.secondPage.setLayout(second_layout)
 
+        # Settings page
+
         self.settingsPage = QWidget()
         settings_layout = QVBoxLayout()
+
+        settings_top_layout = QHBoxLayout()
+        settings_back_button = self.create_back_button(self.settingsPage, self.welcomePage, self.stack)
+        settings_top_layout.addWidget(settings_back_button)
+        settings_top_layout.addStretch()
+
         settings_label = QLabel("Settings Page")
+        settings_layout.addLayout(settings_top_layout)
         settings_layout.addWidget(settings_label)
         self.settingsPage.setLayout(settings_layout)
 
