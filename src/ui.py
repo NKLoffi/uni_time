@@ -1,6 +1,7 @@
 import sys
 from PyQt6.QtWidgets import (QPushButton, QRadioButton, QLineEdit, QMainWindow, QWidget,
-                             QLabel, QMessageBox, QVBoxLayout, QHBoxLayout, QGridLayout, QStackedWidget)
+                             QLabel, QMessageBox, QVBoxLayout, QHBoxLayout, QGridLayout, 
+                             QStackedWidget)
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from database import Database
@@ -25,23 +26,17 @@ class MainWindow(QMainWindow):
         backButton.setGeometry(10, 10, 32, 32)
         backButton.clicked.connect(lambda: stack.setCurrentWidget(target))
         return backButton
+    
+    def create_settings_button(self):
+        button = QPushButton()
+        button.setIcon(QIcon("Assets/Settings_Icon.svg"))
+        button.setObjectName("settingsButton")
+        button.clicked.connect(lambda: self.stack.setCurrentWidget(self.settingsPage))
+        return button
 
     def initUI(self):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-
-        # Settings Icon
-        self.settingsButton = QPushButton(self)
-        self.settingsButton.setIcon(QIcon("Assets/Settings_Icon.svg"))
-        self.settingsButton.setObjectName("settingsButton")
-        self.settingsButton.setGeometry(758, 10, 32, 32)
-        self.settingsButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.settingsPage))
-
-        self.getStartedButton = QPushButton("Get Started")
-        self.getStartedButton.setObjectName("started")
-
-        self.introLabel = QLabel("Welcome to Uni Time")
-        self.introSubLabel = QLabel("Productivity is the key")
 
         # Stacked widget
 
@@ -50,45 +45,73 @@ class MainWindow(QMainWindow):
         central_layout.addWidget(self.stack)
         central_widget.setLayout(central_layout)
 
+        self.getStartedButton = QPushButton("Get Started")
+        self.getStartedButton.setObjectName("started")
+
+        self.introLabel = QLabel("Welcome to Uni Time")
+        self.introSubLabel = QLabel("Productivity is the key")
+
         # Get started page
 
         self.welcomePage = QWidget()
-        welcome_layout = QVBoxLayout()
+        welcome_layout = QVBoxLayout() # Main Layout
+
+        top_bar_layout = QHBoxLayout() # Top Horizontal layout for settingsicon
+        top_bar_layout.addStretch()
+        top_bar_layout.addWidget(self.create_settings_button())
+        welcome_layout.addLayout(top_bar_layout)
+
+        welcomeH_layout = QHBoxLayout()
+        welcomeH_layout.addStretch()
+
         welcome_layout.addStretch()
         welcome_layout.addWidget(self.introLabel)
         welcome_layout.addWidget(self.introSubLabel)
-
-        button_layout = QHBoxLayout()
-        button_layout.addStretch()
-        button_layout.addWidget(self.getStartedButton)
-        button_layout.addStretch()
-        welcome_layout.addLayout(button_layout)
+        welcomeH_layout.addWidget(self.getStartedButton)
+        welcomeH_layout.addStretch()
+        welcome_layout.addLayout(welcomeH_layout)
 
         # Get started page's intro
 
         self.introLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.introSubLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         welcome_layout.addStretch()
-        welcome_layout.setSpacing(4)
+        welcome_layout.setSpacing(4) # spacing between the lines
         self.welcomePage.setLayout(welcome_layout)
 
+        # Account creation Page
 
-        self.secondPage = QWidget()
+        self.createAccountPage = QWidget()
         second_layout = QVBoxLayout()
 
         # Create and add top bar with back button
-        top_bar_layout = QHBoxLayout()
-        self.backButton = self.create_back_button(self.secondPage, self.welcomePage, self.stack)
-        top_bar_layout.addWidget(self.backButton)
-        top_bar_layout.addStretch()
-        second_layout.addLayout(top_bar_layout)
+        second_top_bar_layout = QHBoxLayout()
+        self.backButton = self.create_back_button(self.createAccountPage, self.welcomePage, self.stack)
+        second_top_bar_layout.addWidget(self.backButton)
+        second_top_bar_layout.addStretch()
+        second_top_bar_layout.addWidget(self.create_settings_button())
+        second_layout.addLayout(second_top_bar_layout)
 
         # Add page label
+        self.labels = {
+            "fname": QLabel("Full Name: "),
+            "Dob": QLabel("DOB: "),
+            "email": QLabel("Email: "),
+            "pass": QLabel("Password: "),
+            "cpass": QLabel("Confirm Password: ")
+        }
+
+        self.text_boxes = {
+            "fname": QLineEdit(self),
+            "Dob": QLineEdit(self),
+            "email": QLineEdit(self),
+            "pass": QLineEdit(self),
+            "cpass": QLineEdit(self),
+        }
         second_label = QLabel("second page")
         second_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         second_layout.addWidget(second_label)
-
-        self.secondPage.setLayout(second_layout)
+        self.createAccountPage.setLayout(second_layout)
 
         # Settings page
 
@@ -107,10 +130,10 @@ class MainWindow(QMainWindow):
 
 
         self.stack.addWidget(self.welcomePage)
-        self.stack.addWidget(self.secondPage)
+        self.stack.addWidget(self.createAccountPage)
         self.stack.addWidget(self.settingsPage)
 
 
-        self.getStartedButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.secondPage))
+        self.getStartedButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAccountPage))
 
         self.setStyleSheet(styles.WINDOW_STYLES)
