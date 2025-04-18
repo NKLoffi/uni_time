@@ -108,6 +108,18 @@ class MainWindow(QMainWindow):
             "pass": QLineEdit(self),
             "cpass": QLineEdit(self),
         }
+
+        placeholders = {
+            "fname": "eg. John",
+            "Dob": "eg. DD-MM-YYYY",
+            "email": "jdoe@gmail.com"
+        }
+
+        for key, textbox in self.text_boxes.items():
+            textbox.setPlaceholderText(placeholders[key])
+            textbox.setMininumWidth(200)
+            textbox.setAlignment(Qt.AlignLeft)
+
         second_label = QLabel("second page")
         second_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         second_layout.addWidget(second_label)
