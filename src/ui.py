@@ -91,7 +91,6 @@ class MainWindow(QMainWindow):
         second_top_bar_layout.addStretch()
         second_top_bar_layout.addWidget(self.create_settings_button())
         second_layout.addLayout(second_top_bar_layout)
-
         # Add page label
         self.labels = {
             "fname": QLabel("Full Name: "),
@@ -112,18 +111,21 @@ class MainWindow(QMainWindow):
         placeholders = {
             "fname": "eg. John",
             "Dob": "eg. DD-MM-YYYY",
-            "email": "jdoe@gmail.com"
+            "email": "jdoe@gmail.com",
+            "pass": "Enter a password",
+            "cpass": "Confirm your password"
         }
 
         for key, textbox in self.text_boxes.items():
             textbox.setPlaceholderText(placeholders[key])
-            textbox.setMininumWidth(200)
-            textbox.setAlignment(Qt.AlignLeft)
+            textbox.setMinimumWidth(200)
+            textbox.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         second_label = QLabel("second page")
         second_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         second_layout.addWidget(second_label)
         self.createAccountPage.setLayout(second_layout)
+
 
         # Settings page
 
