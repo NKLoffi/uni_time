@@ -1,0 +1,56 @@
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget
+from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt
+
+from database import Database
+import styles
+from .pages.welcome_page import create_welcome_page
+from .pages.create_account_page import create_account_page
+from .pages.settings import create_settings_page
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.db = Database()
+        self.db.create_table()
+
+        self.setWindowTitle("Uni Time")
+        self.resize(800, 800)
+
+        self.stack = QStackedWidget()
+        self.initUI()
+
+    def create_back_button(self, current, target):
+        from PyQt6.QtWidgets import QPushButton
+        button = QPushButton()
+        button.setIcon(QIcon("Assets/back_button.svg"))
+        button.setObjectName("back")
+        button.setGeometry(10, 10, 32, 32)
+        button.clicked.connect(lambda: self.stack.setCurrentWidget(target))
+        return button
+
+    def create_settings_button(self):
+        from PyQt6.QtWidgets import QPushButton
+        button = QPushButton()
+        button.setIcon(QIcon("Assets/Settings_Icon.svg"))
+        button.setObjectName("settingsButton")
+        button.clicked.connect(lambda: self.stack.setCurrentWidget(self.settingsPage))
+        return button
+
+    def initUI(self):
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+
+        layout = QVBoxLayout(central_widget)
+        layout.addWidget(self.stack)
+
+        self.welcomePage = create_welcome_page(self)
+        self.createAccountPage = create_account_page(self)
+        self.settingsPage = create_settings_page(self)
+
+        self.stack.addWidget(self.welcomePage)
+        self.stack.addWidget(self.createAccountPage)
+        self.stack.addWidget(self.settingsPage)
+
+        self.setStyleSheet(styles.WINDOW_STYLES)
