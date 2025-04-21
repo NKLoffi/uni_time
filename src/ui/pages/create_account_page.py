@@ -1,9 +1,12 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit
+from PyQt6.QtWidgets import ( QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton)
 
 def create_account_page(main_window):
     page = QWidget()
     layout = QVBoxLayout()
+
+    
+
 
     top_bar = QHBoxLayout()
     back_btn = main_window.create_back_button(None, main_window.welcomePage)
@@ -27,9 +30,15 @@ def create_account_page(main_window):
         textbox.setPlaceholderText(placeholder)
         textbox.setMinimumWidth(200)
         textbox.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        textbox.setObjectName("caccLineEdit")
         layout.addWidget(label)
         layout.addWidget(textbox)
 
-    layout.addWidget(QLabel("second page", alignment=Qt.AlignmentFlag.AlignCenter))
+    btn = QPushButton("Create Account")
+    btn.setObjectName("cacc")
+    layout.addWidget(btn)
+
+
+
     page.setLayout(layout)
     return page
