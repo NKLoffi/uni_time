@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt 
 
 def create_welcome_page(main_window):
     page = QWidget()
@@ -21,7 +21,7 @@ def create_welcome_page(main_window):
 
     getStartedButton = QPushButton("Get Started")
     getStartedButton.setObjectName("started")
-    getStartedButton.clicked.connect(lambda: main_window.stack.setCurrentWidget(main_window.createAccountPage))
+    getStartedButton.clicked.connect(lambda: main_window.stack.setCurrentWidget(main_window.signinpage))
 
     button_layout = QHBoxLayout()
     button_layout.addStretch()
