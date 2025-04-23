@@ -7,7 +7,7 @@ import styles
 from .pages.welcome_page import create_welcome_page
 from .pages.create_account_page import create_account_page
 from .pages.settings import create_settings_page
-
+from .pages.loginsignup import loginsignup
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -48,9 +48,11 @@ class MainWindow(QMainWindow):
         self.welcomePage = create_welcome_page(self)
         self.createAccountPage = create_account_page(self)
         self.settingsPage = create_settings_page(self)
+        self.signinpage = loginsignup(self)
 
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.createAccountPage)
         self.stack.addWidget(self.settingsPage)
+        self.stack.addWidget(self.signinpage)
 
         self.setStyleSheet(styles.WINDOW_STYLES)
