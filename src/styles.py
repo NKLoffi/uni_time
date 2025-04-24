@@ -37,6 +37,26 @@ WINDOW_STYLES = """
                 border-radius: 5px;
                 }
 
+                QPushButton#l_btn{
+                background-color: hsl(217, 67%, 44%);
+                color: white;
+                min-width: 150px;
+                max-width: 150px;
+                min-height: 25px;
+                max-height: 25px;
+                border-radius: 5px;
+                }
+
+                QPushButton#s_btn{
+                background-color: hsl(217, 67%, 44%);
+                color: white;
+                min-width: 150px;
+                max-width: 150px;
+                min-height: 25px;
+                max-height: 25px;
+                border-radius: 5px;
+                }
+
                 QLineEdit#caccLineEdit{
                 background-color: hsl(221, 13%, 28%);
                 border: solid black;
