@@ -1,36 +1,66 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
-from PyQt6.QtCore import Qt 
+from PyQt6 import QtCore, QtGui, QtWidgets
 
-def create_welcome_page(main_window):
-    page = QWidget()
-    layout = QVBoxLayout()
 
-    top_bar = QHBoxLayout()
-    top_bar.addStretch()
-    top_bar.addWidget(main_window.create_settings_button())
-    layout.addLayout(top_bar)
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(958, 740)
+        self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.label_3 = QtWidgets.QLabel(parent=Form)
+        self.label_3.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout.addWidget(self.label_3)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.line = QtWidgets.QFrame(parent=Form)
+        self.line.setFrameShape(QtWidgets.QFrame.Shape.VLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.line.setObjectName("line")
+        self.horizontalLayout.addWidget(self.line)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout.addItem(spacerItem2)
+        self.label_4 = QtWidgets.QLabel(parent=Form)
+        self.label_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout.addWidget(self.label_4)
+        self.label = QtWidgets.QLabel(parent=Form)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.lineEdit = QtWidgets.QLineEdit(parent=Form)
+        self.lineEdit.setObjectName("lineEdit")
+        self.verticalLayout.addWidget(self.lineEdit)
+        self.label_2 = QtWidgets.QLabel(parent=Form)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
+        self.lineEdit_2 = QtWidgets.QLineEdit(parent=Form)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.pushButton = QtWidgets.QPushButton(parent=Form)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout.addWidget(self.pushButton)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout.addItem(spacerItem3)
+        self.horizontalLayout.addLayout(self.verticalLayout)
 
-    introLabel = QLabel("Welcome to Uni Time")
-    introSubLabel = QLabel("Productivity is the key")
-    introLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-    introSubLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
-    layout.addStretch()
-    layout.addWidget(introLabel)
-    layout.addWidget(introSubLabel)
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.label_3.setText(_translate("Form", "UNI TIME"))
+        self.label_4.setText(_translate("Form", "Login"))
+        self.label.setText(_translate("Form", "Username:"))
+        self.label_2.setText(_translate("Form", "Password:"))
+        self.pushButton.setText(_translate("Form", "PushButton"))
 
-    getStartedButton = QPushButton("Get Started")
-    getStartedButton.setObjectName("started")
-    getStartedButton.clicked.connect(lambda: main_window.stack.setCurrentWidget(main_window.signinpage))
-
-    button_layout = QHBoxLayout()
-    button_layout.addStretch()
-    button_layout.addWidget(getStartedButton)
-    button_layout.addStretch()
-
-    layout.addLayout(button_layout)
-    layout.addStretch()
-    layout.setSpacing(4)
-
-    page.setLayout(layout)
-    return page
+def create_welcome_page(self):
+    widget = QtWidgets.QWidget()
+    ui = Ui_Form()
+    ui.setupUi(widget)
+    return widget
