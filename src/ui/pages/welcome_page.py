@@ -43,6 +43,9 @@ class Ui_Form(object):
         self.pushButton = QtWidgets.QPushButton(parent=Form)
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout.addWidget(self.pushButton)
+        self.pushButton_2 = QtWidgets.QPushButton(parent=Form)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.verticalLayout.addWidget(self.pushButton_2)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout.addItem(spacerItem3)
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -57,7 +60,8 @@ class Ui_Form(object):
         self.label_4.setText(_translate("Form", "Login"))
         self.label.setText(_translate("Form", "Username:"))
         self.label_2.setText(_translate("Form", "Password:"))
-        self.pushButton.setText(_translate("Form", "PushButton"))
+        self.pushButton.setText(_translate("Form", "Log in"))
+        self.pushButton_2.setText(_translate("Form", "Sign up"))
 
 def create_welcome_page(self):
     widget = QtWidgets.QWidget()
