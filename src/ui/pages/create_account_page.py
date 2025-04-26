@@ -1,44 +1,81 @@
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import ( QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton)
-
-def create_account_page(main_window):
-    page = QWidget()
-    layout = QVBoxLayout()
-
-    
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-    top_bar = QHBoxLayout()
-    back_btn = main_window.create_back_button(None, main_window.welcomePage)
-    back_btn.setObjectName("back")
-    top_bar.addWidget(back_btn)
-    top_bar.addStretch()
-    top_bar.addWidget(main_window.create_settings_button())
-    layout.addLayout(top_bar)
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(958, 740)
+        self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.label_3 = QtWidgets.QLabel(parent=Form)
+        self.label_3.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout.addWidget(self.label_3)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.line = QtWidgets.QFrame(parent=Form)
+        self.line.setFrameShape(QtWidgets.QFrame.Shape.VLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        self.line.setObjectName("line")
+        self.horizontalLayout.addWidget(self.line)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout.addItem(spacerItem2)
+        self.label_4 = QtWidgets.QLabel(parent=Form)
+        self.label_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout.addWidget(self.label_4)
+        self.label = QtWidgets.QLabel(parent=Form)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.lineEdit_2 = QtWidgets.QLineEdit(parent=Form)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.label_6 = QtWidgets.QLabel(parent=Form)
+        self.label_6.setObjectName("label_6")
+        self.verticalLayout.addWidget(self.label_6)
+        self.lineEdit_6 = QtWidgets.QLineEdit(parent=Form)
+        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.verticalLayout.addWidget(self.lineEdit_6)
+        self.label_2 = QtWidgets.QLabel(parent=Form)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
+        self.lineEdit_5 = QtWidgets.QLineEdit(parent=Form)
+        self.lineEdit_5.setObjectName("lineEdit_5")
+        self.verticalLayout.addWidget(self.lineEdit_5)
+        self.label_5 = QtWidgets.QLabel(parent=Form)
+        self.label_5.setObjectName("label_5")
+        self.verticalLayout.addWidget(self.label_5)
+        self.lineEdit_3 = QtWidgets.QLineEdit(parent=Form)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.verticalLayout.addWidget(self.lineEdit_3)
+        self.pushButton = QtWidgets.QPushButton(parent=Form)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout.addWidget(self.pushButton)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.verticalLayout.addItem(spacerItem3)
+        self.horizontalLayout.addLayout(self.verticalLayout)
 
-    fields = {
-        "Full Name": "eg. John",
-        "DOB": "eg. DD-MM-YYYY",
-        "Email": "jdoe@gmail.com",
-        "Password": "Enter a password",
-        "Confirm Password": "Confirm your password"
-    }
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
-    for label_text, placeholder in fields.items():
-        label = QLabel(label_text)
-        textbox = QLineEdit()
-        textbox.setPlaceholderText(placeholder)
-        textbox.setMinimumWidth(200)
-        textbox.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        textbox.setObjectName("caccLineEdit")
-        layout.addWidget(label)
-        layout.addWidget(textbox)
-
-    btn = QPushButton("Create Account")
-    btn.setObjectName("cacc")
-    layout.addWidget(btn)
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.label_3.setText(_translate("Form", "UNI TIME"))
+        self.label_4.setText(_translate("Form", "Sign up"))
+        self.label.setText(_translate("Form", "Full name:"))
+        self.label_6.setText(_translate("Form", "Email:"))
+        self.label_2.setText(_translate("Form", "Password:"))
+        self.label_5.setText(_translate("Form", "Confirm Password:"))
+        self.pushButton.setText(_translate("Form", "Create Account"))
 
 
-
-    page.setLayout(layout)
-    return page
+def create_account_page(self):
+    widget = QtWidgets.QWidget()
+    ui = Ui_Form()
+    ui.setupUi(widget)
+    return widget
