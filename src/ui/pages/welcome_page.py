@@ -67,4 +67,5 @@ def create_welcome_page(self):
     widget = QtWidgets.QWidget()
     ui = Ui_Form()
     ui.setupUi(widget)
+    widget.ui = ui
     return widget
