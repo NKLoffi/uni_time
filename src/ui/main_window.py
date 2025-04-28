@@ -1,11 +1,11 @@
 from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
+from PyQt6 import uic
 
 from database import Database
 import styles
 from .pages.welcome_page import create_welcome_page
-from .pages.create_account_page import create_account_page
 from .pages.settings import create_settings_page
 from .pages.loginsignup import loginsignup
 
@@ -22,12 +22,13 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def create_back_button(self, current, target):
-        from PyQt6.QtWidgets import QPushButton
+        from PyQt6.QtWidgets import QPushButton, QHBoxLayout
         button = QPushButton()
         button.setIcon(QIcon("Assets/back_button.svg"))
         button.setObjectName("back")
         button.setGeometry(10, 10, 32, 32)
         button.clicked.connect(lambda: self.stack.setCurrentWidget(target))
+        back_button_layout = QHBoxLayout
         return button
 
     def create_settings_button(self):
@@ -36,6 +37,7 @@ class MainWindow(QMainWindow):
         button.setIcon(QIcon("Assets/Settings_Icon.svg"))
         button.setObjectName("settingsButton")
         button.clicked.connect(lambda: self.stack.setCurrentWidget(self.settingsPage))
+
         return button
 
     def initUI(self):
@@ -45,8 +47,10 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(central_widget)
         layout.addWidget(self.stack)
 
+        self.createAccountPage = QWidget()
+        uic.loadUi('src/ui/pages/createaccount.ui', self.createAccountPage)
+
         self.welcomePage = create_welcome_page(self)
-        self.createAccountPage = create_account_page(self)
         self.settingsPage = create_settings_page(self)
         self.signinpage = loginsignup(self)
 
@@ -54,5 +58,7 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.createAccountPage)
         self.stack.addWidget(self.settingsPage)
         self.stack.addWidget(self.signinpage)
+
+        self.welcomePage.ui.pushButton_2.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAccountPage))
 
         self.setStyleSheet(styles.WINDOW_STYLES)
