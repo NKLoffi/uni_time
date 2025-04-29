@@ -8,10 +8,12 @@ import styles
 from .pages.welcome_page import create_welcome_page
 from .pages.settings import create_settings_page
 from .pages.loginsignup import loginsignup
+from .pages.create_account import create_account_page
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+
         self.db = Database()
         self.db.create_table()
 
@@ -47,18 +49,30 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(central_widget)
         layout.addWidget(self.stack)
 
-        self.createAccountPage = QWidget()
-        uic.loadUi('src/ui/pages/createaccount.ui', self.createAccountPage)
+        # self.createAccountPage = QWidget()
+        # uic.loadUi('src/ui/pages/createaccount.ui', self.createAccountPage) 
 
         self.welcomePage = create_welcome_page(self)
+        self.createAcc = create_account_page(self)
         self.settingsPage = create_settings_page(self)
         self.signinpage = loginsignup(self)
 
+
         self.stack.addWidget(self.welcomePage)
-        self.stack.addWidget(self.createAccountPage)
+        self.stack.addWidget(self.createAcc)
         self.stack.addWidget(self.settingsPage)
         self.stack.addWidget(self.signinpage)
 
-        self.welcomePage.ui.pushButton_2.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAccountPage))
+        self.welcomePage.ui.pushButton_2.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAcc))
+        self.createAcc.ui.createAccButton.clicked.connect(self.create_account)
+
+    def create_account(self):
+        full_name = self.createAcc.ui.nameField.text()
+        email = self.createAcc.ui.emailField.text()
+        password = self.createAcc.ui.passField.text()
+
+        self.db.create_user(full_name, email, password)
+
+        self.stack.setCurrentWidget(self.welcomePage)
 
         self.setStyleSheet(styles.WINDOW_STYLES)
