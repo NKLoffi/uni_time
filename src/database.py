@@ -11,7 +11,8 @@ class Database:
 
         CREATE_USER_TABLE = """ CREATE TABLE IF NOT EXISTS users (
                                 userId INTEGER PRIMARY KEY AUTOINCREMENT,
-                                userName TEXT NOT NULL,
+                                fullName TEXT NOT NULL,
+                                email TEXT NOT NULL,
                                 password TEXT NOT NULL
                                 );
                             """
@@ -46,16 +47,17 @@ class Database:
             connection.execute(INSERT_TASKS, (taskName, courseName, priority, due))
         connection.close()
 
-    def create_user(self, userName, password):
+    def create_user(self, fullName ,userName, password):
 
         INSERT_USER = """ INSERT INTO users (
-                            userName,
+                            fullName,
+                            email,
                             password)
-                            values(?, ?);
+                            values(?, ?, ?);
                             """
         
         connection = self.connect()
         with connection:
-            connection.execute(INSERT_USER, (userName, password))
+            connection.execute(INSERT_USER, (fullName, userName, password))
         connection.close()
             
