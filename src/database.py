@@ -61,3 +61,11 @@ class Database:
             connection.execute(INSERT_USER, (fullName, userName, password))
         connection.close()
             
+    def user_log_in(self, email, password):
+        INFO = """SELECT * FROM users WHERE email = ? AND password = ?"""
+        connection = self.connect
+        with connection:
+            cursor = connection.execute(INFO, (email, password))
+            user = cursor.fetchone()
+        connection.close()
+        return user
