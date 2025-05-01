@@ -65,6 +65,7 @@ class MainWindow(QMainWindow):
 
         self.welcomePage.ui.pushButton_2.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAcc))
         self.createAcc.ui.createAccButton.clicked.connect(self.create_account)
+        self.createAcc.ui.backButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage))
 
     def create_account(self):
         full_name = self.createAcc.ui.nameField.text()
@@ -76,3 +77,14 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.welcomePage)
 
         self.setStyleSheet(styles.WINDOW_STYLES)
+
+    def log_in(self):
+        email = self.welcomePage.ui.lineEdit.text()
+        password = self.welcomePage.ui.lineEdit_2.text()
+
+        user = self.db.user_log_in(email, password)
+
+        if user:
+            self.stack.setCurrentWidget(self.settingsPage)
+        else:
+            print("Invalid login credentials")
