@@ -7,7 +7,6 @@ from database import Database
 import styles
 from .pages.welcome_page import create_welcome_page
 from .pages.settings import create_settings_page
-from .pages.loginsignup import loginsignup
 from .pages.create_account import create_account_page
 
 class MainWindow(QMainWindow):
@@ -30,7 +29,6 @@ class MainWindow(QMainWindow):
         button.setObjectName("back")
         button.setGeometry(10, 10, 32, 32)
         button.clicked.connect(lambda: self.stack.setCurrentWidget(target))
-        back_button_layout = QHBoxLayout
         return button
 
     def create_settings_button(self):
@@ -49,23 +47,19 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(central_widget)
         layout.addWidget(self.stack)
 
-        # self.createAccountPage = QWidget()
-        # uic.loadUi('src/ui/pages/createaccount.ui', self.createAccountPage) 
-
         self.welcomePage = create_welcome_page(self)
         self.createAcc = create_account_page(self)
         self.settingsPage = create_settings_page(self)
-        self.signinpage = loginsignup(self)
-
 
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.createAcc)
         self.stack.addWidget(self.settingsPage)
-        self.stack.addWidget(self.signinpage)
 
         self.welcomePage.ui.pushButton_2.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAcc))
         self.createAcc.ui.createAccButton.clicked.connect(self.create_account)
         self.createAcc.ui.backButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage))
+        self.welcomePage.ui.pushButton.clicked.connect(self.log_in)
+        self.setStyleSheet(styles.WINDOW_STYLES)
 
     def create_account(self):
         full_name = self.createAcc.ui.nameField.text()
@@ -76,7 +70,6 @@ class MainWindow(QMainWindow):
 
         self.stack.setCurrentWidget(self.welcomePage)
 
-        self.setStyleSheet(styles.WINDOW_STYLES)
 
     def log_in(self):
         email = self.welcomePage.ui.lineEdit.text()
