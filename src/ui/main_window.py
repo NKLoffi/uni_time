@@ -66,6 +66,10 @@ class MainWindow(QMainWindow):
         email = self.createAcc.ui.emailField.text()
         password = self.createAcc.ui.passField.text()
 
+        if not (full_name and email and password):
+            print("Please fill in all the fields.")
+            return
+
         self.db.create_user(full_name, email, password)
 
         self.stack.setCurrentWidget(self.welcomePage)
@@ -74,6 +78,10 @@ class MainWindow(QMainWindow):
     def log_in(self):
         email = self.welcomePage.ui.lineEdit.text()
         password = self.welcomePage.ui.lineEdit_2.text()
+
+        if not (email and password):
+            print("Please fill all the details.")
+            return
 
         user = self.db.user_log_in(email, password)
 
