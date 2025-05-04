@@ -8,6 +8,7 @@ import styles
 from .pages.welcome_page import create_welcome_page
 from .pages.settings import create_settings_page
 from .pages.create_account import create_account_page
+from .pages.task import create_task_page
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -50,15 +51,18 @@ class MainWindow(QMainWindow):
         self.welcomePage = create_welcome_page(self)
         self.createAcc = create_account_page(self)
         self.settingsPage = create_settings_page(self)
+        self.createTaskPage = create_task_page(self)
 
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.createAcc)
         self.stack.addWidget(self.settingsPage)
+        self.stack.addWidget(self.createTaskPage)
 
         self.welcomePage.ui.pushButton_2.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAcc))
         self.createAcc.ui.createAccButton.clicked.connect(self.create_account)
         self.createAcc.ui.backButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage))
         self.welcomePage.ui.pushButton.clicked.connect(self.log_in)
+
         self.setStyleSheet(styles.WINDOW_STYLES)
 
     def create_account(self):
@@ -86,6 +90,6 @@ class MainWindow(QMainWindow):
         user = self.db.user_log_in(email, password)
 
         if user:
-            self.stack.setCurrentWidget(self.settingsPage)
+            self.stack.setCurrentWidget(self.createTaskPage)
         else:
             print("Invalid login credentials")
