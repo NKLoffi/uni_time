@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from PyQt6 import uic
@@ -62,6 +62,9 @@ class MainWindow(QMainWindow):
         self.createAcc.ui.createAccButton.clicked.connect(self.create_account)
         self.createAcc.ui.backButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage))
         self.welcomePage.ui.pushButton.clicked.connect(self.log_in)
+        self.createTaskPage.ui.addButton.clicked.connect(self.crete_task)
+
+        self.load_tasks()
 
         self.setStyleSheet(styles.WINDOW_STYLES)
 
@@ -93,3 +96,21 @@ class MainWindow(QMainWindow):
             self.stack.setCurrentWidget(self.createTaskPage)
         else:
             print("Invalid login credentials")
+
+    def crete_task(self):
+        course = self.createTaskPage.ui.courseField.text()
+        assignment = self.createTaskPage.ui.AssignmentField.text()
+        description = self.createTaskPage.ui.DescriptionField.text()
+        due = self.createTaskPage.ui.dueField.text()
+
+        self.db.insert_info(course, assignment, description, due)
+
+        self.load_tasks()
+
+    def load_tasks(self):
+        tasks = self.db.get_tasks()
+        self.createTaskPage.ui.taskTable.setRowCount(len(tasks))
+        for row_id, task in enumerate(tasks):
+            for col_id, value in enumerate(task):
+                item = QTableWidgetItem(str(value))
+                self.createTaskPage.ui.taskTable.setItem(row_id, col_id, item)
