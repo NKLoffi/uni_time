@@ -64,7 +64,7 @@ class MainWindow(QMainWindow):
         self.welcomePage.ui.pushButton.clicked.connect(self.log_in)
         self.createTaskPage.ui.addButton.clicked.connect(self.crete_task)
 
-        self.load_tasks()
+
 
         self.setStyleSheet(styles.WINDOW_STYLES)
 
@@ -93,7 +93,9 @@ class MainWindow(QMainWindow):
         user = self.db.user_log_in(email, password)
 
         if user:
+            self.current_user_id = user[0]
             self.stack.setCurrentWidget(self.createTaskPage)
+            self.load_tasks()
         else:
             print("Invalid login credentials")
 
@@ -103,12 +105,12 @@ class MainWindow(QMainWindow):
         description = self.createTaskPage.ui.DescriptionField.text()
         due = self.createTaskPage.ui.dueField.text()
 
-        self.db.insert_info(course, assignment, description, due)
+        self.db.insert_info(self.current_user_id, course, assignment, description, due)
 
         self.load_tasks()
 
     def load_tasks(self):
-        tasks = self.db.get_tasks()
+        tasks = self.db.get_tasks(self.current_user_id)
         self.createTaskPage.ui.taskTable.setRowCount(len(tasks))
         for row_id, task in enumerate(tasks):
             for col_id, value in enumerate(task):

@@ -19,10 +19,12 @@ class Database:
 
         CREATE_TASK_TABLE = """ CREATE TABLE IF NOT EXISTS tasks (
                                 taskId INTEGER PRIMARY KEY AUTOINCREMENT,
+                                userId INTEGER NOT NULL,
                                 courseName TEXT NOT NULL,
                                 assignment TEXT NOT NULL,
                                 description TEXT NOT NULL,
-                                due DATE NOT NULL
+                                due DATE NOT NULL,
+                                FOREIGN KEY (userId) REFERENCES users(userId)
                                 );"""
         
         connection = self.connect()
@@ -32,19 +34,20 @@ class Database:
         connection.close()
 
 
-    def insert_info(self, courseName, assignment, description, due): # Function to insert tasks to the task table
+    def insert_info(self, userId, courseName, assignment, description, due): # Function to insert tasks to the task table
 
         INSERT_TASKS =  """ INSERT INTO tasks ( 
+                            userId,
                             courseName,
                             assignment,
                             description,
                             due)
-                            values (?, ?, ?, ?);
+                            values (?, ?, ?, ?, ?);
                             """
         
         connection = self.connect()
         with connection:
-            connection.execute(INSERT_TASKS, (courseName, assignment, description, due))
+            connection.execute(INSERT_TASKS, (userId, courseName, assignment, description, due))
         connection.close()
 
     def create_user(self, fullName ,userName, password):
@@ -70,11 +73,11 @@ class Database:
         connection.close()
         return user
     
-    def get_tasks(self):
-        TASK = """SELECT courseName, assignment, description ,due FROM tasks"""
+    def get_tasks(self, userId):
+        TASK = """SELECT courseName, assignment, description, due FROM tasks WHERE userId = ?"""
         connection = self.connect()
         with connection:
-            cursor = connection.execute(TASK)
+            cursor = connection.execute(TASK, (userId,) )
             tasks = cursor.fetchall()
         connection.close()
         return tasks
