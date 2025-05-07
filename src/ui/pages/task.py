@@ -18,7 +18,7 @@ class Ui_Form(object):
         self.taskTable.setMinimumSize(QtCore.QSize(600, 0))
         self.taskTable.setMaximumSize(QtCore.QSize(600, 16777215))
         self.taskTable.setObjectName("taskTable")
-        self.taskTable.setColumnCount(4)
+        self.taskTable.setColumnCount(5)
         self.taskTable.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.taskTable.setHorizontalHeaderItem(0, item)
@@ -28,6 +28,8 @@ class Ui_Form(object):
         self.taskTable.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.taskTable.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.taskTable.setHorizontalHeaderItem(4, item)
         self.gridLayout.addWidget(self.taskTable, 1, 0, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.gridLayout.addItem(spacerItem2, 0, 0, 1, 1)
@@ -86,6 +88,7 @@ class Ui_Form(object):
         self.DescriptionLabel.setText(_translate("Form", "Description"))
         self.DueLabel.setText(_translate("Form", "Due Date"))
         self.addButton.setText(_translate("Form", "Add a task"))
+
 
 def create_task_page(self):
     widget = QtWidgets.QWidget()

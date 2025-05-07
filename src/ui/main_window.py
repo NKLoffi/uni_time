@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from PyQt6 import uic
@@ -113,6 +113,14 @@ class MainWindow(QMainWindow):
         tasks = self.db.get_tasks(self.current_user_id)
         self.createTaskPage.ui.taskTable.setRowCount(len(tasks))
         for row_id, task in enumerate(tasks):
-            for col_id, value in enumerate(task):
+            for col_id, value in enumerate(task[:4]):
                 item = QTableWidgetItem(str(value))
                 self.createTaskPage.ui.taskTable.setItem(row_id, col_id, item)
+
+            check_box = QTableWidgetItem()
+            check_box.setFlags(Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled)
+            check_box.setCheckState(Qt.CheckState.Unchecked)
+            self.createTaskPage.ui.taskTable.setItem(row_id, 4, check_box)
+
+    def del_task(self):
+        pass
