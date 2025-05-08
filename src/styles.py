@@ -12,14 +12,17 @@ WINDOW_STYLES = """
                 text-align: center;
                 }
 
-                QLabel#label_4{
+                QLabel#label_4,
+                QLabel#label{
                 color: white;
                 font-weight: bold;
                 font-size: 23px;
                 text-align: center;
                 }
 
-                QPushButton#backButton{
+                QPushButton#backButton,
+                QPushButton#deleteButton,
+                QPushButton#logOutButton{
                 background-color: transparent;
                 border: none;
                 }
