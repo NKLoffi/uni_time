@@ -63,6 +63,7 @@ class MainWindow(QMainWindow):
         self.createAcc.ui.backButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage))
         self.welcomePage.ui.pushButton.clicked.connect(self.log_in)
         self.createTaskPage.ui.addButton.clicked.connect(self.crete_task)
+        self.createTaskPage.ui.deleteButton.clicked.connect(self.del_task)
 
 
 
@@ -108,6 +109,7 @@ class MainWindow(QMainWindow):
         self.db.insert_info(self.current_user_id, course, assignment, description, due)
 
         self.load_tasks()
+        self.del_task()
 
     def load_tasks(self):
         tasks = self.db.get_tasks(self.current_user_id)
@@ -115,12 +117,18 @@ class MainWindow(QMainWindow):
         for row_id, task in enumerate(tasks):
             for col_id, value in enumerate(task[:4]):
                 item = QTableWidgetItem(str(value))
+                if col_id == 0:
+                    item.setData(Qt.ItemDataRole.UserRole, task[0])
                 self.createTaskPage.ui.taskTable.setItem(row_id, col_id, item)
 
-            check_box = QTableWidgetItem()
-            check_box.setFlags(Qt.ItemFlag.ItemIsUserCheckable | Qt.ItemFlag.ItemIsEnabled)
-            check_box.setCheckState(Qt.CheckState.Unchecked)
-            self.createTaskPage.ui.taskTable.setItem(row_id, 4, check_box)
+            checkbox = QCheckBox()
+            self.createTaskPage.ui.taskTable.setCellWidget(row_id, 4, checkbox)
 
     def del_task(self):
-        pass
+        for row in reversed(range(self.createTaskPage.ui.taskTable.rowCount())):
+            widget = self.createTaskPage.ui.taskTable.cellWidget(row, 4)
+            if isinstance(widget, QCheckBox) and widget.isChecked():
+                item = self.createTaskPage.ui.taskTable.item(row, 0)
+                task_id = item.data(Qt.ItemDataRole.UserRole)
+                self.db.dlt_task(task_id)
+                self.createTaskPage.ui.taskTable.removeRow(row)
