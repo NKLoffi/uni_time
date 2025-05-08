@@ -81,3 +81,13 @@ class Database:
             tasks = cursor.fetchall()
         connection.close()
         return tasks
+
+    def dlt_task(self, taskId):
+
+        DLT = """DELETE FROM tasks WHERE taskId = ?"""
+
+        connection = self.connect()
+        with connection:
+            connection.execute(DLT, (taskId,))
+        connection.close()
+
