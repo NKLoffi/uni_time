@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit, QMessageBox
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt, QDate
 from PyQt6 import uic
@@ -70,6 +70,8 @@ class MainWindow(QMainWindow):
         self.createTaskPage.ui.addButton.clicked.connect(self.create_task)
         self.createTaskPage.ui.deleteButton.clicked.connect(self.del_task)
 
+        self.createTaskPage.ui.logOutButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage)) # Have to make changes later
+
 
 
         self.setStyleSheet(styles.WINDOW_STYLES)
@@ -78,9 +80,14 @@ class MainWindow(QMainWindow):
         full_name = self.createAcc.ui.nameField.text()
         email = self.createAcc.ui.emailField.text()
         password = self.createAcc.ui.passField.text()
+        cpassword = self.createAcc.ui.cPassField.text()
 
-        if not (full_name and email and password):
-            print("Please fill in all the fields.")
+        if not (full_name and email and password and cpassword):
+            QMessageBox.warning(self, "Inncomplete fields", "All fields are mandatory")
+            return
+        
+        if  (password != cpassword):
+            QMessageBox.warning(self, "Password Mismatch", "Passwords do not match.")
             return
 
         self.db.create_user(full_name, email, password)
@@ -93,7 +100,7 @@ class MainWindow(QMainWindow):
         password = self.welcomePage.ui.passField.text()
 
         if not (email and password):
-            print("Please fill all the details.")
+            QMessageBox.warning(self, "Incomplete fields", "Please fill in all the fields")
             return
 
         user = self.db.user_log_in(email, password)
@@ -138,3 +145,6 @@ class MainWindow(QMainWindow):
                 self.db.dlt_task(task_id)
                 self.createTaskPage.ui.taskTable.removeRow(row)
                 print(f"Deleting task with ID: {task_id}")
+
+    def log_out(self):
+        pass
