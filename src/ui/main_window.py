@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit
 from PyQt6.QtGui import QIcon
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QDate
 from PyQt6 import uic
 
 from database import Database
@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def create_back_button(self, current, target):
-        from PyQt6.QtWidgets import QPushButton, QHBoxLayout
+        from PyQt6.QtWidgets import QPushButton
         button = QPushButton()
         button.setIcon(QIcon("Assets/back_button.svg"))
         button.setObjectName("back")
@@ -49,20 +49,25 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.stack)
 
         self.welcomePage = create_welcome_page(self)
+
+        self.welcomePage.ui.passField.setEchoMode(QLineEdit.EchoMode.Password)
         self.createAcc = create_account_page(self)
         self.settingsPage = create_settings_page(self)
         self.createTaskPage = create_task_page(self)
+
+        self.createTaskPage.ui.dueField.setDate(QDate.currentDate())
+
 
         self.stack.addWidget(self.welcomePage)
         self.stack.addWidget(self.createAcc)
         self.stack.addWidget(self.settingsPage)
         self.stack.addWidget(self.createTaskPage)
 
-        self.welcomePage.ui.pushButton_2.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAcc))
+        self.welcomePage.ui.signupButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAcc))
         self.createAcc.ui.createAccButton.clicked.connect(self.create_account)
         self.createAcc.ui.backButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage))
-        self.welcomePage.ui.pushButton.clicked.connect(self.log_in)
-        self.createTaskPage.ui.addButton.clicked.connect(self.crete_task)
+        self.welcomePage.ui.loginButton.clicked.connect(self.log_in)
+        self.createTaskPage.ui.addButton.clicked.connect(self.create_task)
         self.createTaskPage.ui.deleteButton.clicked.connect(self.del_task)
 
 
@@ -84,8 +89,8 @@ class MainWindow(QMainWindow):
 
 
     def log_in(self):
-        email = self.welcomePage.ui.lineEdit.text()
-        password = self.welcomePage.ui.lineEdit_2.text()
+        email = self.welcomePage.ui.userField.text()
+        password = self.welcomePage.ui.passField.text()
 
         if not (email and password):
             print("Please fill all the details.")
@@ -100,7 +105,7 @@ class MainWindow(QMainWindow):
         else:
             print("Invalid login credentials")
 
-    def crete_task(self):
+    def create_task(self):
         course = self.createTaskPage.ui.courseField.text()
         assignment = self.createTaskPage.ui.AssignmentField.text()
         description = self.createTaskPage.ui.DescriptionField.text()
@@ -115,7 +120,7 @@ class MainWindow(QMainWindow):
         tasks = self.db.get_tasks(self.current_user_id)
         self.createTaskPage.ui.taskTable.setRowCount(len(tasks))
         for row_id, task in enumerate(tasks):
-            for col_id, value in enumerate(task[:4]):
+            for col_id, value in enumerate(task[1:5]):
                 item = QTableWidgetItem(str(value))
                 if col_id == 0:
                     item.setData(Qt.ItemDataRole.UserRole, task[0])
@@ -132,3 +137,4 @@ class MainWindow(QMainWindow):
                 task_id = item.data(Qt.ItemDataRole.UserRole)
                 self.db.dlt_task(task_id)
                 self.createTaskPage.ui.taskTable.removeRow(row)
+                print(f"Deleting task with ID: {task_id}")
