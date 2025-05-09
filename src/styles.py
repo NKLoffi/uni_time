@@ -1,8 +1,30 @@
 WINDOW_STYLES = """
 
                 QMainWindow{
-                background-color: hsl(40, 3%, 28%);
+                background-color: hsl(40, 3%, 20%);
                 }
+
+                QTableView{
+                background-color: hsl(41, 3%, 20%);
+                gridline-color:white;
+                color: white;
+                border: 1px solid black;
+                }
+
+                QHeaderView::section {
+                background-color: hsl(41, 3%, 25%) !important;
+                color: white;
+                border: 1px solid black;
+                }
+
+                QAbstractScrollArea {
+                    background-color: hsl(41, 3%, 20%);
+                }
+                QTableCornerButton::section {
+                background-color: hsl(41, 3%, 25%) !important;
+                border: 1px solid black;
+                }
+
 
                 QLabel#mainLabel,
                 QLabel#label_3{
@@ -12,12 +34,19 @@ WINDOW_STYLES = """
                 text-align: center;
                 }
 
-                QLabel#label_4,
+                QLabel#loginLabel{
+                color: white;
+                font-weight: bold;
+                font-size: 23px;
+                text-align: center;
+                }
+
                 QLabel#label{
                 color: white;
                 font-weight: bold;
                 font-size: 23px;
                 text-align: center;
+                padding: 25px;
                 }
 
                 QPushButton#backButton,
@@ -37,7 +66,10 @@ WINDOW_STYLES = """
                 border-radius: 5px;
                 }
 
-                QPushButton#started:hover{
+                QPushButton#createAccButton:hover,
+                QPushButton#loginButton:hover,
+                QPushButton#signupButton:hover,
+                QPushButton#addButton:hover{
                 background-color: hsl(200, 72%, 35%);
                 }
 
@@ -62,8 +94,9 @@ WINDOW_STYLES = """
                 }
 
                 QPushButton#createAccButton,
-                QPushButton#pushButton,
-                QPushButton#pushButton_2{
+                QPushButton#loginButton,
+                QPushButton#signupButton,
+                QPushButton#addButton{
                 background-color: hsl(217, 67%, 44%);
                 color: white;
                 min-width: 150px;
@@ -84,4 +117,5 @@ WINDOW_STYLES = """
                 max-height: 25px;
                 color: white;
                 }
+                
                 """
