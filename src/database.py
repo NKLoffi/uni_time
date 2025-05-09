@@ -74,7 +74,7 @@ class Database:
         return user
     
     def get_tasks(self, userId):
-        TASK = """SELECT courseName, assignment, description, due FROM tasks WHERE userId = ?"""
+        TASK = """SELECT taskId, courseName, assignment, description, due FROM tasks WHERE userId = ?"""
         connection = self.connect()
         with connection:
             cursor = connection.execute(TASK, (userId,) )
