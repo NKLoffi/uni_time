@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
         cpassword = self.createAcc.ui.cPassField.text()
 
         if not (full_name and email and password and cpassword):
-            QMessageBox.warning(self, "Inncomplete fields", "All fields are mandatory")
+            QMessageBox.warning(self, "Incomplete fields", "All fields are mandatory")
             return
         
         if  (password != cpassword):
@@ -93,6 +93,14 @@ class MainWindow(QMainWindow):
         self.db.create_user(full_name, email, password)
 
         self.stack.setCurrentWidget(self.welcomePage)
+
+        self.clear_cacc_info()
+
+    def clear_cacc_info(self):
+        self.createAcc.ui.nameField.clear() 
+        self.createAcc.ui.emailField.clear() 
+        self.createAcc.ui.passField.clear() 
+        self.createAcc.ui.cPassField.clear() 
 
 
     def log_in(self):
@@ -110,7 +118,15 @@ class MainWindow(QMainWindow):
             self.stack.setCurrentWidget(self.createTaskPage)
             self.load_tasks()
         else:
-            print("Invalid login credentials")
+            QMessageBox.warning(self, "Invalid Credentials", "Your email or password is wrong")
+            return
+        
+        self.clear_login_info()
+
+    def clear_login_info(self):
+        self.welcomePage.ui.userField.clear() 
+        self.welcomePage.ui.passField.clear() 
+
 
     def create_task(self):
         course = self.createTaskPage.ui.courseField.text()
@@ -120,8 +136,17 @@ class MainWindow(QMainWindow):
 
         self.db.insert_info(self.current_user_id, course, assignment, description, due)
 
+
+
         self.load_tasks()
         self.del_task()
+        self.clear_task_fields()
+
+    def clear_task_fields(self):
+        self.createTaskPage.ui.courseField.clear()
+        self.createTaskPage.ui.AssignmentField.clear()
+        self.createTaskPage.ui.DescriptionField.clear()
+        self.createTaskPage.ui.dueField.setDate(QDate.currentDate())
 
     def load_tasks(self):
         tasks = self.db.get_tasks(self.current_user_id)
