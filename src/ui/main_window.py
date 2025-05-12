@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit, QMessageBox
-from PyQt6.QtGui import QIcon
-from PyQt6.QtCore import Qt, QDate
+from PyQt6.QtGui import QIcon, QRegularExpressionValidator
+from PyQt6.QtCore import Qt, QDate, QRegularExpression
 from PyQt6 import uic
 
 from database import Database
@@ -89,7 +89,14 @@ class MainWindow(QMainWindow):
         if  (password != cpassword):
             QMessageBox.warning(self, "Password Mismatch", "Passwords do not match.")
             return
+        
+        email_regex = QRegularExpression(r"^[0-9a-zA-Z]+([._+-][0-9a-zA-Z]+)*@[0-9a-zA-Z]+([.-][0-9a-zA-Z]+)*\.[a-zA-Z]{2,}$")
+        self.createAcc.ui.emailField.setValidator(QRegularExpressionValidator(email_regex))
+        invalid_email = not email_regex.match(email).hasMatch()
 
+        if invalid_email:
+            QMessageBox.warning(self, "Invalid Email", "The email address you have entered is not valid")
+            return
         self.db.create_user(full_name, email, password)
 
         self.stack.setCurrentWidget(self.welcomePage)
@@ -107,11 +114,20 @@ class MainWindow(QMainWindow):
         email = self.welcomePage.ui.userField.text()
         password = self.welcomePage.ui.passField.text()
 
+        email_regex = QRegularExpression(r"^[0-9a-zA-Z]+([._+-][0-9a-zA-Z]+)*@[0-9a-zA-Z]+([.-][0-9a-zA-Z]+)*\.[a-zA-Z]{2,}$")
+        self.createAcc.ui.emailField.setValidator(QRegularExpressionValidator(email_regex))
+        invalid_email = not email_regex.match(email).hasMatch()
+        if invalid_email:
+            QMessageBox.warning(self, "Invalid Email", "The email address you have entered is not valid")
+            return
+        
+        
         if not (email and password):
             QMessageBox.warning(self, "Incomplete fields", "Please fill in all the fields")
             return
 
         user = self.db.user_log_in(email, password)
+
 
         if user:
             self.current_user_id = user[0]
@@ -120,6 +136,8 @@ class MainWindow(QMainWindow):
         else:
             QMessageBox.warning(self, "Invalid Credentials", "Your email or password is wrong")
             return
+        
+
         
         self.clear_login_info()
 
