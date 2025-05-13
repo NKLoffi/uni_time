@@ -152,9 +152,11 @@ class MainWindow(QMainWindow):
         description = self.createTaskPage.ui.DescriptionField.text()
         due = self.createTaskPage.ui.dueField.text()
 
+        if not(course and assignment and due):
+            QMessageBox.warning(self, "Incomplete Fields", "To create a task you have to enter the course name, assignment name, and due date ")
+            return
+        
         self.db.insert_info(self.current_user_id, course, assignment, description, due)
-
-
 
         self.load_tasks()
         self.del_task()
