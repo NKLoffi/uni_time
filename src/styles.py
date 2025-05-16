@@ -50,6 +50,7 @@ WINDOW_STYLES = """
                 }
 
                 QPushButton#backButton,
+                QPushButton#backbtn,
                 QPushButton#deleteButton,
                 QPushButton#logOutButton{
                 background-color: transparent;
