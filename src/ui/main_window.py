@@ -9,6 +9,7 @@ from .pages.welcome_page import create_welcome_page
 from .pages.settings import create_settings_page
 from .pages.create_account import create_account_page
 from .pages.task import create_task_page
+from .pages.job import job_applications
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -54,6 +55,7 @@ class MainWindow(QMainWindow):
         self.createAcc = create_account_page(self)
         self.settingsPage = create_settings_page(self)
         self.createTaskPage = create_task_page(self)
+        self.jobPortal = job_applications(self)
 
         self.createTaskPage.ui.dueField.setDate(QDate.currentDate())
 
@@ -62,6 +64,7 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.createAcc)
         self.stack.addWidget(self.settingsPage)
         self.stack.addWidget(self.createTaskPage)
+        self.stack.addWidget(self.jobPortal)
 
         self.welcomePage.ui.signupButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.createAcc))
         self.createAcc.ui.createAccButton.clicked.connect(self.create_account)
@@ -69,6 +72,9 @@ class MainWindow(QMainWindow):
         self.welcomePage.ui.loginButton.clicked.connect(self.log_in)
         self.createTaskPage.ui.addButton.clicked.connect(self.create_task)
         self.createTaskPage.ui.deleteButton.clicked.connect(self.del_task)
+        self.createTaskPage.ui.jobBtn.clicked.connect(lambda: self.stack.setCurrentWidget(self.jobPortal))
+
+        self.jobPortal.ui.backbtn.clicked.connect(lambda: self.stack.setCurrentWidget(self.createTaskPage))
 
         self.createTaskPage.ui.logOutButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage)) # Have to make changes later
 
