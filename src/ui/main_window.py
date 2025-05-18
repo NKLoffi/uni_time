@@ -11,6 +11,8 @@ from .pages.create_account import create_account_page
 from .pages.task import create_task_page
 from .pages.job import job_applications
 
+import bcrypt
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -88,6 +90,10 @@ class MainWindow(QMainWindow):
         password = self.createAcc.ui.passField.text()
         cpassword = self.createAcc.ui.cPassField.text()
 
+        salt = bcrypt.gensalt()
+
+        hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+
         if not (full_name and email and password and cpassword):
             QMessageBox.warning(self, "Incomplete fields", "All fields are mandatory")
             return
@@ -103,7 +109,7 @@ class MainWindow(QMainWindow):
         if invalid_email:
             QMessageBox.warning(self, "Invalid Email", "The email address you have entered is not valid")
             return
-        self.db.create_user(full_name, email, password)
+        self.db.create_user(full_name, email, hashed.decode('utf-8'))
 
         self.stack.setCurrentWidget(self.welcomePage)
 
