@@ -27,10 +27,37 @@ class Database:
                                 FOREIGN KEY (userId) REFERENCES users(userId)
                                 );"""
         
+        CREATE_JOB_TABLE = """CREATE TABLE IF NOT EXISTS jobs (
+                              jobId PRIMARY KEY,
+                              jobTitle TEXT NOT NULL,
+                              company TEXT NOT NULL,
+                              appliedDate DATE NOT NULL,
+                              notes TEXT NOT NULL
+                              );"""
+        
         connection = self.connect()
         with connection:
             connection.execute(CREATE_TASK_TABLE)
             connection.execute(CREATE_USER_TABLE)
+            connection.execute(CREATE_JOB_TABLE)
+        connection.close()
+
+
+    
+    def create_jobs(self, jId, jTitle, company, aDate, notes):
+
+        INSERT_JOBS = """ INSERT INTO jobs (
+                          jobId,
+                          jobTitle,
+                          company,
+                          appliedDate,
+                          notes)
+                          values(?, ?, ?, ?, ?);
+                          """
+        
+        connection = self.connect()
+        with connection:
+            connection.execute(INSERT_JOBS, (jId, jTitle, company, aDate, notes))
         connection.close()
 
 
