@@ -73,6 +73,7 @@ class MainWindow(QMainWindow):
         self.createAcc.ui.backButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage))
         self.welcomePage.ui.loginButton.clicked.connect(self.log_in)
         self.createTaskPage.ui.addButton.clicked.connect(self.create_task)
+        self.jobPortal.ui.addButton.clicked.connect(self.create_jobs)
         self.createTaskPage.ui.deleteButton.clicked.connect(self.del_task)
         self.createTaskPage.ui.jobBtn.clicked.connect(lambda: self.stack.setCurrentWidget(self.jobPortal))
 
@@ -205,3 +206,13 @@ class MainWindow(QMainWindow):
 
     def log_out(self):
         pass
+
+    def create_jobs(self):
+        job_id = self.jobPortal.ui.jobIdField.text()
+        job_title = self.jobPortal.ui.JTitleField.text()
+        comany_name = self.jobPortal.ui.CField.text()
+        applied_date = self.jobPortal.ui.aDateField.text()
+        notes = self.jobPortal.ui.notesField.text()
+
+        self.db.create_jobs(job_id, job_title, comany_name, applied_date, notes)
+
