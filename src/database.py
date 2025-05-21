@@ -6,6 +6,7 @@ class Database:
 
     def connect(self):
         return sqlite3.connect(self.db_name)
+    
 
     def create_table(self): # function to create table
 
@@ -28,11 +29,13 @@ class Database:
                                 );"""
         
         CREATE_JOB_TABLE = """CREATE TABLE IF NOT EXISTS jobs (
-                              jobId PRIMARY KEY,
+                              jobId INTEGER PRIMARY KEY AUTOINCREMENT,
+                              userId INTEGER NOT NULL,
                               jobTitle TEXT NOT NULL,
                               company TEXT NOT NULL,
                               appliedDate DATE NOT NULL,
-                              notes TEXT NOT NULL
+                              notes TEXT NOT NULL,
+                              FOREIGN KEY (userId) REFERENCES users(userId)
                               );"""
         
         connection = self.connect()
@@ -43,23 +46,32 @@ class Database:
         connection.close()
 
 
+
     
-    def create_jobs(self, jId, jTitle, company, aDate, notes):
+    def create_jobs(self, userId, jTitle, company, aDate, notes):
 
         INSERT_JOBS = """ INSERT INTO jobs (
-                          jobId,
+                          userId,
                           jobTitle,
                           company,
                           appliedDate,
                           notes)
                           values(?, ?, ?, ?, ?);
-                          """
+                    """
         
         connection = self.connect()
         with connection:
-            connection.execute(INSERT_JOBS, (jId, jTitle, company, aDate, notes))
+            connection.execute(INSERT_JOBS, (userId, jTitle, company, aDate, notes))
         connection.close()
 
+    def get_jobs(self, userId):                                                          # Function to fetch jobs from the database
+        JOBS = """SELECT jobId, jobTitle, company, appliedDate, notes FROM jobs WHERE userId = ?"""
+        connection = self.connect()
+        with connection:
+            cursor = connection.execute(JOBS, (userId,))
+            jobs = cursor.fetchall()
+        connection.close()
+        return jobs
 
     def insert_info(self, userId, courseName, assignment, description, due): # Function to insert tasks to the task table
 

@@ -214,5 +214,21 @@ class MainWindow(QMainWindow):
         applied_date = self.jobPortal.ui.aDateField.text()
         notes = self.jobPortal.ui.notesField.text()
 
-        self.db.create_jobs(job_id, job_title, comany_name, applied_date, notes)
+        self.db.create_jobs(self.current_user_id, job_title, comany_name, applied_date, notes)
+
+        self.load_jobs()
+
+    
+    def load_jobs(self):
+        jobs = self.db.get_jobs(self.current_user_id)
+        self.jobPortal.ui.jobTable.setRowCount(len(jobs))
+
+        for row_id, job in enumerate(jobs):
+            for col_id, value in enumerate(job):
+                item = QTableWidgetItem(str(value))
+                if col_id == 0:
+                    item.setData(Qt.ItemDataRole.UserRole, job[0])
+                self.jobPortal.ui.jobTable.setItem(row_id, col_id, item)
+
+
 
