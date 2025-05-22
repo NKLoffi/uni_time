@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit, QMessageBox, QComboBox
 from PyQt6.QtGui import QIcon, QRegularExpressionValidator
 from PyQt6.QtCore import Qt, QDate, QRegularExpression
 from PyQt6 import uic
@@ -60,6 +60,7 @@ class MainWindow(QMainWindow):
         self.jobPortal = job_applications(self)
 
         self.createTaskPage.ui.dueField.setDate(QDate.currentDate())
+        self.jobPortal.ui.aDateField.setDate(QDate.currentDate())
 
 
         self.stack.addWidget(self.welcomePage)
@@ -81,6 +82,7 @@ class MainWindow(QMainWindow):
 
         self.createTaskPage.ui.logOutButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage)) # Have to make changes later
 
+        
 
 
         self.setStyleSheet(styles.WINDOW_STYLES)
@@ -146,6 +148,7 @@ class MainWindow(QMainWindow):
             self.current_user_id = user[0]
             self.stack.setCurrentWidget(self.createTaskPage)
             self.load_tasks()
+            self.load_jobs()
         else:
             QMessageBox.warning(self, "Invalid Credentials", "Your email or password is wrong")
             return
@@ -218,6 +221,14 @@ class MainWindow(QMainWindow):
 
         self.load_jobs()
 
+        self.clear_job_field()
+
+    def clear_job_field(self):
+        self.jobPortal.ui.jobIdField.clear()
+        self.jobPortal.ui.JTitleField.clear()
+        self.jobPortal.ui.CField.clear()
+        self.jobPortal.ui.aDateField.setDate(QDate.currentDate())
+        self.jobPortal.ui.notesField.clear()
     
     def load_jobs(self):
         jobs = self.db.get_jobs(self.current_user_id)
@@ -230,5 +241,6 @@ class MainWindow(QMainWindow):
                     item.setData(Qt.ItemDataRole.UserRole, job[0])
                 self.jobPortal.ui.jobTable.setItem(row_id, col_id, item)
 
-
-
+            comboBox = QComboBox()
+            comboBox.addItems(['Applied', 'Interviewed', 'Received Offer' ,'Rejected'])
+            self.jobPortal.ui.jobTable.setCellWidget(row_id, 5, comboBox)
