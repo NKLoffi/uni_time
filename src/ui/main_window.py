@@ -214,7 +214,7 @@ class MainWindow(QMainWindow):
         applied_date = self.jobPortal.ui.aDateField.text()
         notes = self.jobPortal.ui.notesField.text()
 
-        self.db.create_jobs(self.current_user_id, job_title, comany_name, applied_date, notes)
+        self.db.create_jobs(self.current_user_id, job_id, job_title, comany_name, applied_date, notes)
 
         self.load_jobs()
 

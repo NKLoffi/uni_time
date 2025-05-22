@@ -29,7 +29,7 @@ class Database:
                                 );"""
         
         CREATE_JOB_TABLE = """CREATE TABLE IF NOT EXISTS jobs (
-                              jobId INTEGER PRIMARY KEY AUTOINCREMENT,
+                              jobId INTEGER TEXT NOT NULL,
                               userId INTEGER NOT NULL,
                               jobTitle TEXT NOT NULL,
                               company TEXT NOT NULL,
@@ -40,6 +40,7 @@ class Database:
         
         connection = self.connect()
         with connection:
+            # connection.execute("DROP TABLE IF EXISTS jobs;")
             connection.execute(CREATE_TASK_TABLE)
             connection.execute(CREATE_USER_TABLE)
             connection.execute(CREATE_JOB_TABLE)
@@ -48,20 +49,21 @@ class Database:
 
 
     
-    def create_jobs(self, userId, jTitle, company, aDate, notes):
+    def create_jobs(self, userId, jobId, jTitle, company, aDate, notes):
 
         INSERT_JOBS = """ INSERT INTO jobs (
                           userId,
+                          jobId,
                           jobTitle,
                           company,
                           appliedDate,
                           notes)
-                          values(?, ?, ?, ?, ?);
+                          values(?, ?, ?, ?, ?, ?);
                     """
         
         connection = self.connect()
         with connection:
-            connection.execute(INSERT_JOBS, (userId, jTitle, company, aDate, notes))
+            connection.execute(INSERT_JOBS, (userId, jobId, jTitle, company, aDate, notes))
         connection.close()
 
     def get_jobs(self, userId):                                                          # Function to fetch jobs from the database
