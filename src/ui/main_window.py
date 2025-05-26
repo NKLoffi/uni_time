@@ -217,6 +217,10 @@ class MainWindow(QMainWindow):
         applied_date = self.jobPortal.ui.aDateField.text()
         notes = self.jobPortal.ui.notesField.text()
 
+        if not job_title:
+            QMessageBox.warning(self, "Incomplete Field", "Please entere the job title")
+            return
+
         self.db.create_jobs(self.current_user_id, job_id, job_title, comany_name, applied_date, notes)
 
         self.load_jobs()
