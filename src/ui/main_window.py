@@ -248,3 +248,6 @@ class MainWindow(QMainWindow):
             comboBox = QComboBox()
             comboBox.addItems(['Applied', 'Interviewed', 'Received Offer' ,'Rejected'])
             self.jobPortal.ui.jobTable.setCellWidget(row_id, 5, comboBox)
+
+            checkbox = QCheckBox()
+            self.jobPortal.ui.jobTable.setCellWidget(row_id, 6, checkbox)
