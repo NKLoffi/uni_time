@@ -132,3 +132,11 @@ class Database:
             connection.execute(DLT, (taskId,))
         connection.close()
 
+    def dlt_job(self, jobId):
+
+        DLT = """DELETE FROM jobs WHERE jobId = ?"""
+
+        connection = self.connect()
+        with connection:
+            connection.execute(DLT, (jobId,))
+        connection.close()

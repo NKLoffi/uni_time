@@ -76,6 +76,7 @@ class MainWindow(QMainWindow):
         self.createTaskPage.ui.addButton.clicked.connect(self.create_task)
         self.jobPortal.ui.addButton.clicked.connect(self.create_jobs)
         self.createTaskPage.ui.deleteButton.clicked.connect(self.del_task)
+        self.jobPortal.ui.pushButton.clicked.connect(self.dlt_jobs)
         self.createTaskPage.ui.jobBtn.clicked.connect(lambda: self.stack.setCurrentWidget(self.jobPortal))
 
         self.jobPortal.ui.backbtn.clicked.connect(lambda: self.stack.setCurrentWidget(self.createTaskPage))
@@ -251,3 +252,13 @@ class MainWindow(QMainWindow):
 
             checkbox = QCheckBox()
             self.jobPortal.ui.jobTable.setCellWidget(row_id, 6, checkbox)
+
+    
+    def dlt_jobs(self):
+        for row in reversed(range(self.jobPortal.ui.jobTable.rowCount())):
+            widget = self.jobPortal.ui.jobTable.cellWidget(row, 6)
+            if isinstance(widget, QCheckBox) and widget.isChecked():
+                item = self.jobPortal.ui.jobTable.item(row, 0)
+                job_id = item.data(Qt.ItemDataRole.UserRole)
+                self.db.dlt_job(job_id)
+                self.jobPortal.ui.jobTable.removeRow(row)
