@@ -29,7 +29,8 @@ class Database:
                                 );"""
         
         CREATE_JOB_TABLE = """CREATE TABLE IF NOT EXISTS jobs (
-                              jobId INTEGER TEXT NOT NULL,
+                              id INTEGER PRIMARY KEY AUTOINCREMENT,
+                              jobId TEXT NOT NULL,
                               userId INTEGER NOT NULL,
                               jobTitle TEXT NOT NULL,
                               company TEXT NOT NULL,
@@ -53,8 +54,8 @@ class Database:
     def create_jobs(self, userId, jobId, jTitle, company, aDate, notes, status):
 
         INSERT_JOBS = """ INSERT INTO jobs (
-                          userId,
                           jobId,
+                          userId,
                           jobTitle,
                           company,
                           appliedDate,
@@ -65,7 +66,7 @@ class Database:
         
         connection = self.connect()
         with connection:
-            connection.execute(INSERT_JOBS, (userId, jobId, jTitle, company, aDate, notes, status))
+            connection.execute(INSERT_JOBS, (jobId, userId, jTitle, company, aDate, notes, status))
         connection.close()
 
     def get_jobs(self, userId):                                                          # Function to fetch jobs from the database
@@ -135,7 +136,7 @@ class Database:
         connection.close()
 
     def update_job_status(self, job_id, status):
-        UPDATE_STATUS = "UPDATE jobs SET status = ? WHERE jobId = ?"
+        UPDATE_STATUS = "UPDATE jobs SET status = ? WHERE id = ?"
         connection = self.connect()
         with connection:
             connection.execute(UPDATE_STATUS, (status, job_id))
@@ -143,7 +144,7 @@ class Database:
 
     def dlt_job(self, jobId):
 
-        DLT = """DELETE FROM jobs WHERE jobId = ?"""
+        DLT = """DELETE FROM jobs WHERE id = ?"""
 
         connection = self.connect()
         with connection:

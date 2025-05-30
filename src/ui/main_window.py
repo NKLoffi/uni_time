@@ -251,17 +251,18 @@ class MainWindow(QMainWindow):
             comboBox = QComboBox()
             comboBox.addItems(['Applied', 'Interviewed', 'Received Offer' ,'Rejected'])
             comboBox.setCurrentText(job[5])
-            comboBox.currentTextChanged.connect(lambda status, row=row_id: self.update_job_status(row, status))
+            id = job[0]
+            self.connect_status_change(comboBox, id)
             self.jobPortal.ui.jobTable.setCellWidget(row_id, 5, comboBox)
 
             checkbox = QCheckBox()
             self.jobPortal.ui.jobTable.setCellWidget(row_id, 6, checkbox)
 
-    def update_job_status(self, row, status):
-        item = self.jobPortal.ui.jobTable.item(row, 0)
-        if item:
-            job_id = item.data(Qt.ItemDataRole.UserRole)
-            self.db.update_job_status(job_id, status, )
+    def connect_status_change(self, comboBox, job_id):
+        comboBox.currentTextChanged.connect(lambda status: self.update_job_status(job_id, status))
+
+    def update_job_status(self, job_id, status):
+            self.db.update_job_status(job_id, status)
 
     
     def dlt_jobs(self):
