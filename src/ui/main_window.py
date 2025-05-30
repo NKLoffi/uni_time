@@ -11,8 +11,6 @@ from .pages.create_account import create_account_page
 from .pages.task import create_task_page
 from .pages.job import job_applications
 
-# import bcrypt
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -221,8 +219,10 @@ class MainWindow(QMainWindow):
         if not job_title:
             QMessageBox.warning(self, "Incomplete Field", "Please entere the job title")
             return
+        
+        status = " "
 
-        self.db.create_jobs(self.current_user_id, job_id, job_title, comany_name, applied_date, notes)
+        self.db.create_jobs(self.current_user_id, job_id, job_title, comany_name, applied_date, notes, status)
 
         self.load_jobs()
 
@@ -241,6 +241,8 @@ class MainWindow(QMainWindow):
 
         for row_id, job in enumerate(jobs):
             for col_id, value in enumerate(job):
+                if col_id == 5:
+                    continue
                 item = QTableWidgetItem(str(value))
                 if col_id == 0:
                     item.setData(Qt.ItemDataRole.UserRole, job[0])
@@ -248,10 +250,18 @@ class MainWindow(QMainWindow):
 
             comboBox = QComboBox()
             comboBox.addItems(['Applied', 'Interviewed', 'Received Offer' ,'Rejected'])
+            comboBox.setCurrentText(job[5])
+            comboBox.currentTextChanged.connect(lambda status, row=row_id: self.update_job_status(row, status))
             self.jobPortal.ui.jobTable.setCellWidget(row_id, 5, comboBox)
 
             checkbox = QCheckBox()
             self.jobPortal.ui.jobTable.setCellWidget(row_id, 6, checkbox)
+
+    def update_job_status(self, row, status):
+        item = self.jobPortal.ui.jobTable.item(row, 0)
+        if item:
+            job_id = item.data(Qt.ItemDataRole.UserRole)
+            self.db.update_job_status(job_id, status, )
 
     
     def dlt_jobs(self):
