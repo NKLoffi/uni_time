@@ -35,6 +35,7 @@ class Database:
                               company TEXT NOT NULL,
                               appliedDate DATE NOT NULL,
                               notes TEXT NOT NULL,
+                              status TEXT NOT NULL,
                               FOREIGN KEY (userId) REFERENCES users(userId)
                               );"""
         
@@ -49,7 +50,7 @@ class Database:
 
 
     
-    def create_jobs(self, userId, jobId, jTitle, company, aDate, notes):
+    def create_jobs(self, userId, jobId, jTitle, company, aDate, notes, status):
 
         INSERT_JOBS = """ INSERT INTO jobs (
                           userId,
@@ -57,17 +58,18 @@ class Database:
                           jobTitle,
                           company,
                           appliedDate,
-                          notes)
-                          values(?, ?, ?, ?, ?, ?);
+                          notes,
+                          status)
+                          values(?, ?, ?, ?, ?, ?, ?);
                     """
         
         connection = self.connect()
         with connection:
-            connection.execute(INSERT_JOBS, (userId, jobId, jTitle, company, aDate, notes))
+            connection.execute(INSERT_JOBS, (userId, jobId, jTitle, company, aDate, notes, status))
         connection.close()
 
     def get_jobs(self, userId):                                                          # Function to fetch jobs from the database
-        JOBS = """SELECT jobId, jobTitle, company, appliedDate, notes FROM jobs WHERE userId = ?"""
+        JOBS = """SELECT jobId, jobTitle, company, appliedDate, notes, status FROM jobs WHERE userId = ?"""
         connection = self.connect()
         with connection:
             cursor = connection.execute(JOBS, (userId,))
@@ -130,6 +132,13 @@ class Database:
         connection = self.connect()
         with connection:
             connection.execute(DLT, (taskId,))
+        connection.close()
+
+    def update_job_status(self, job_id, status):
+        UPDATE_STATUS = "UPDATE jobs SET status = ? WHERE jobId = ?"
+        connection = self.connect()
+        with connection:
+            connection.execute(UPDATE_STATUS, (status, job_id))
         connection.close()
 
     def dlt_job(self, jobId):
