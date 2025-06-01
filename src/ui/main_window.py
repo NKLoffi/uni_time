@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
 
         self.jobPortal.ui.backbtn.clicked.connect(lambda: self.stack.setCurrentWidget(self.createTaskPage))
 
-        self.createTaskPage.ui.logOutButton.clicked.connect(lambda: self.stack.setCurrentWidget(self.welcomePage)) # Have to make changes later
+        self.createTaskPage.ui.logOutButton.clicked.connect(self.log_out)
 
         
 
@@ -207,7 +207,10 @@ class MainWindow(QMainWindow):
                 print(f"Deleting task with ID: {task_id}")
 
     def log_out(self):
-        pass
+        self.current_user_id = None
+        self.clear_job_field()
+        self.clear_login_info()
+        self.stack.setCurrentWidget(self.welcomePage)
 
     def create_jobs(self):
         job_id = self.jobPortal.ui.jobIdField.text()
