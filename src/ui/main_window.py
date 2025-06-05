@@ -1,7 +1,7 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit, QMessageBox, QComboBox
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, QTableWidgetItem, QCheckBox, QLineEdit, QMessageBox, QComboBox, QFileDialog
 from PyQt6.QtGui import QIcon, QRegularExpressionValidator
-from PyQt6.QtCore import Qt, QDate, QRegularExpression
-from PyQt6 import uic
+from PyQt6.QtCore import Qt, QDate, QRegularExpression, QDir
+import csv
 
 from database import Database
 import styles
@@ -80,6 +80,8 @@ class MainWindow(QMainWindow):
         self.jobPortal.ui.backbtn.clicked.connect(lambda: self.stack.setCurrentWidget(self.createTaskPage))
 
         self.createTaskPage.ui.logOutButton.clicked.connect(self.log_out)
+
+        self.jobPortal.ui.docbtn.clicked.connect(self.export_to_csv)
 
         
 
@@ -276,3 +278,6 @@ class MainWindow(QMainWindow):
                 job_id = item.data(Qt.ItemDataRole.UserRole)
                 self.db.dlt_job(job_id)
                 self.jobPortal.ui.jobTable.removeRow(row)
+
+    def export_to_csv(self):
+        path = QFileDialog.getSaveFileName(self, 'Save File', QDir.homePath() + "/export.csv", "CSV Files(*.csv *.txt)")

@@ -56,7 +56,7 @@ WINDOW_STYLES = """
                 background-color: transparent;
                 border: none;
                 }
-
+ 
                 QPushButton#started{
                 background-color: hsl(217, 72%, 35%);
                 color: white;
