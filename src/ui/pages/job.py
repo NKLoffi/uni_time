@@ -116,7 +116,7 @@ class Ui_Form(object):
         self.aDateLabel.setText(_translate("Form", "Applied Date"))
         self.notesLabel.setText(_translate("Form", "Notes"))
         self.addButton.setText(_translate("Form", "Add"))
-        self.docbtn.setText(_translate("Form", "Documents"))
+        self.docbtn.setText(_translate("Form", "Export"))
         item = self.jobTable.horizontalHeaderItem(0)
         item.setText(_translate("Form", "JobID"))
         item = self.jobTable.horizontalHeaderItem(1)

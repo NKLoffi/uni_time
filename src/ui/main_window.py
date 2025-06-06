@@ -281,3 +281,24 @@ class MainWindow(QMainWindow):
 
     def export_to_csv(self):
         path = QFileDialog.getSaveFileName(self, 'Save File', QDir.homePath() + "/export.csv", "CSV Files(*.csv *.txt)")
+        if path[0]:
+            with open(path[0], mode='w', newline='', encoding='utf-8') as file:
+                writer = csv.writer(file)
+                # Write headers
+                headers = []
+                for column in range(self.jobPortal.ui.jobTable.columnCount() - 1):  
+                    item = self.jobPortal.ui.jobTable.horizontalHeaderItem(column)
+                    headers.append(item.text() if item else f"Column {column}")
+                writer.writerow(headers)
+
+                # Write data rows
+                for row in range(self.jobPortal.ui.jobTable.rowCount()):
+                    row_data = []
+                    for column in range(self.jobPortal.ui.jobTable.columnCount() - 1):
+                        widget = self.jobPortal.ui.jobTable.cellWidget(row, column)
+                        if isinstance(widget, QComboBox):
+                            row_data.append(widget.currentText())
+                        else:
+                            item = self.jobPortal.ui.jobTable.item(row, column)
+                            row_data.append(item.text() if item else "")
+                    writer.writerow(row_data)
