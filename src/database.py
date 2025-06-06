@@ -136,7 +136,7 @@ class Database:
         connection.close()
 
     def update_job_status(self, job_id, status):
-        UPDATE_STATUS = "UPDATE jobs SET status = ? WHERE id = ?"
+        UPDATE_STATUS = "UPDATE jobs SET status = ? WHERE jobId = ?"
         connection = self.connect()
         with connection:
             connection.execute(UPDATE_STATUS, (status, job_id))
@@ -144,7 +144,7 @@ class Database:
 
     def dlt_job(self, jobId):
 
-        DLT = """DELETE FROM jobs WHERE id = ?"""
+        DLT = """DELETE FROM jobs WHERE jobId = ?"""
 
         connection = self.connect()
         with connection:
