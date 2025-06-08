@@ -1,4 +1,5 @@
 import sqlite3
+import bcrypt  # Ensure this import is at the top of the file
 
 class Database:
     def __init__(self, db_name = "data.db"):
@@ -108,14 +109,19 @@ class Database:
             connection.execute(INSERT_USER, (fullName, userName, password))
         connection.close()
             
-    def user_log_in(self, email, password):
-        INFO = """SELECT * FROM users WHERE email = ? AND password = ?"""
+    def user_log_in(self, email, entered_password):
+        INFO = """SELECT userId, fullName, email, password FROM users WHERE email = ?"""
         connection = self.connect()
         with connection:
-            cursor = connection.execute(INFO, (email, password))
-            user = cursor.fetchone()
+            cursor = connection.execute(INFO, (email,))
+            result = cursor.fetchone()
         connection.close()
-        return user
+
+        if result:
+            userId, fullName, email, hashed_password = result
+            if bcrypt.checkpw(entered_password.encode('utf-8'), hashed_password):
+                return (userId, fullName, email)
+        return None
     
     def get_tasks(self, userId):
         TASK = """SELECT taskId, courseName, assignment, description, due FROM tasks WHERE userId = ?"""

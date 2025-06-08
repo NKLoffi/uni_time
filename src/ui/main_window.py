@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QStackedWidget, Q
 from PyQt6.QtGui import QIcon, QRegularExpressionValidator
 from PyQt6.QtCore import Qt, QDate, QRegularExpression, QDir
 import csv
-
+import bcrypt
 from database import Database
 import styles
 from .pages.welcome_page import create_welcome_page
@@ -85,9 +85,9 @@ class MainWindow(QMainWindow):
         password = self.createAcc.ui.passField.text()
         cpassword = self.createAcc.ui.cPassField.text()
 
-        # salt = bcrypt.gensalt()
+        salt = bcrypt.gensalt()
 
-        # hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+        hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
 
         if not (full_name and email and password and cpassword):
             QMessageBox.warning(self, "Incomplete fields", "All fields are mandatory")
@@ -104,7 +104,7 @@ class MainWindow(QMainWindow):
         if invalid_email:
             QMessageBox.warning(self, "Invalid Email", "The email address you have entered is not valid")
             return
-        self.db.create_user(full_name, email, password)
+        self.db.create_user(full_name, email, hashed)
 
         self.stack.setCurrentWidget(self.welcomePage)
 
