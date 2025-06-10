@@ -1,5 +1,5 @@
 import sqlite3
-import bcrypt  # Ensure this import is at the top of the file
+import bcrypt
 
 class Database:
     def __init__(self, db_name = "data.db"):

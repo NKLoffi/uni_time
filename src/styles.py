@@ -20,6 +20,7 @@ WINDOW_STYLES = """
                 QAbstractScrollArea {
                     background-color: hsl(41, 3%, 20%);
                 }
+
                 QTableCornerButton::section {
                 background-color: hsl(41, 3%, 25%) !important;
                 border: 1px solid black;
@@ -27,11 +28,29 @@ WINDOW_STYLES = """
 
 
                 QLabel#mainLabel,
+                QLabel#label_4,
                 QLabel#label_3{
                 color: white;
                 font-weight: bold;
                 font-size: 30px;
                 text-align: center;
+                }
+
+                QLabel#notesLabel,
+                QLabel#DescriptionLabel,
+                QLabel#jIdLabel,
+                QLabel#jTitleLabel,
+                QLabel#DueLabel,
+                QLabel#AssignmentLabel,
+                QLabel#courseLabel,
+                QLabel#userLabel,
+                QLabel#passLabel,
+                QLabel#nameLabel,
+                QLabel#emailLabel,
+                QLabel#passLabel,
+                QLabel#cPassLabel,
+                QLabel#aDateLabel{
+                color: white;
                 }
 
                 QLabel#loginLabel{
@@ -116,6 +135,23 @@ WINDOW_STYLES = """
                 max-width: 400px;
                 min-height: 25px;
                 max-height: 25px;
+                color: white;
+                }
+
+
+                QComboBox {
+                background-color: hsl(40, 3%, 25%);
+                padding: 4px 8px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                font-size: 13px;
+                color: white;
+                }
+
+                QComboBox QAbstractItemView {
+                background-color: hsl(40, 3%, 50%);
+                selection-background-color: hsl(40, 3%, 50%);
+                selection-color: hsl(40, 3%, 70%);
                 color: white;
                 }
                 
