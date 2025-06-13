@@ -11,7 +11,7 @@
 
 ### 🛠️ Tech Stack
 
-- **Programming Language**: Python 3.x  
+- **Programming Language**: Python 3.0 
 - **GUI Framework**: PyQt6  
 - **Database**: SQLite  
 
