@@ -86,6 +86,24 @@ WINDOW_STYLES = """
                 border-radius: 5px;
                 }
 
+                QPushButton#jobBtn,
+                QPushButton#docbtn,
+                QPushButton#pushButton{
+                background-color: hsl(217, 72%, 35%);
+                color: white;
+                border-radius: 5px;
+                min-width: 100px;
+                max-width: 100px;
+                min-height: 25px;
+                max-height: 25px;
+                }
+
+                QPushButton#jobBtn:hover,
+                QPushButton#docbtn:hover,
+                QPushButton#pushButton:hover{
+                background-color: hsl(200, 72%, 35%);
+                }
+
                 QPushButton#createAccButton:hover,
                 QPushButton#loginButton:hover,
                 QPushButton#signupButton:hover,
@@ -154,5 +172,19 @@ WINDOW_STYLES = """
                 selection-color: hsl(40, 3%, 70%);
                 color: white;
                 }
+
+                QDateEdit{
+                background-color: hsl(40, 3%, 37%);
+                border-radius: 5px;
+                color: white;
+                border: 1px solid black;
+                }
+
+                QCheckBox::indicator:unchecked {
+                background-color: hsl(40, 3%, 37%);
+                border-radius: 5px;
+                border: 0.5px solid #ccc;
+                }
                 
+
                 """
